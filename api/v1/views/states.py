@@ -46,7 +46,7 @@ def state_by_id(state_id):
                 setattr(state, key, value)
         state.save()
 
-        return make_response(jsonify(state.to_dict()), 200)
+        return (jsonify(state.to_dict()), 200)
 
     if request.method == 'DELETE':
         state = storage.get(State, state_id)
@@ -64,12 +64,12 @@ def create_state():
     """Creates a State"""
     data = request.get_json()
 
-    if not data:
+    if not request.is_json():
         abort(400, description="Not a JSON")
 
-    if 'name' not in data:
+    if 'name' not in request.json:
         abort(400, description="Missing name")
 
     state = State(**data)
     state.save()
-    return make_response(jsonify(state.to_dict()), 201)
+    return (jsonify(state.to_dict()), 201)
