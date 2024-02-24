@@ -22,8 +22,9 @@ def state_by_id(state_id):
     If method is 'DELETE', deletes state
     If method is 'PUT', updates a state
     """
-    if request.method == 'GET':
-        state = storage.get(State, state_id)
+    state = storage.get(State, state_id)
+
+    request.method == 'GET':
         if not state:
             abort(404)
 
