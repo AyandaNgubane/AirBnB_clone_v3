@@ -25,18 +25,18 @@ def state_by_id(state_id):
     if request.method == 'GET':
         state = storage.get(State, state_id)
 
-        if not state:
+        if state is None:
             abort(404)
 
         return jsonify(state.to_dict())
 
     if request.method == 'PUT':
         state = storage.get(State, state_id)
-        if not state:
+        if state is None:
             abort(404)
 
         data = request.get_json()
-        if not data:
+        if not request.is_json():
             abort(400, description="Not a JSON")
 
         ignore = ['id', 'created_at', 'updated_at']
@@ -44,13 +44,13 @@ def state_by_id(state_id):
         for key, value in data.items():
             if key not in ignore:
                 setattr(state, key, value)
-        storage.save()
+        state.save()
 
         return make_response(jsonify(state.to_dict()), 200)
 
     if request.method == 'DELETE':
         state = storage.get(State, state_id)
-        if not state:
+        if state is None:
             abort(404)
 
         storage.delete(state)
