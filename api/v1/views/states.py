@@ -39,6 +39,8 @@ def state_by_id(state_id):
                 setattr(state, key, value)
         state.save()
 
+        return make_response(jsonify({}), 200)
+
     if request.method == 'DELETE':
         state.delete()
         storage.save()
