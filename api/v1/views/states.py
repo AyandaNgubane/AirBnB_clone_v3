@@ -22,11 +22,12 @@ def state_by_id(state_id):
     If method is 'DELETE', deletes state
     If method is 'PUT', updates a state
     """
-    state = storage.get(State, state_id)
-    if not state:
-        abort(404)
+    if request.method == 'GET':
+        state = storage.get(State, state_id)
+        if not state:
+            abort(404)
 
-    return jsonify(state.to_dict())
+        return jsonify(state.to_dict())
 
     if request.method == 'DELETE':
         if not state:
