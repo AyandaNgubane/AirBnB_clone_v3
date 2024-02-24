@@ -24,20 +24,9 @@ def state_by_id(state_id):
     """
     state = storage.get(State, state_id)
 
-    request.method == 'GET':
-        if not state:
-            abort(404)
+    if not state:
+        abort(404)
 
-        return jsonify(state.to_dict())
-
-    if request.method == 'DELETE':
-        if not state:
-            abort(404)
-
-        storage.delete(state)
-        storage.save()
-
-        return make_response(jsonify({}), 200)
 
     if request.method == 'PUT':
         if not state:
@@ -53,7 +42,17 @@ def state_by_id(state_id):
             if key not in ignore:
                 setattr(state, key, value)
         storage.save()
-        return make_response(jsonify(state.to_dict()), 200)
+
+    if request.method == 'DELETE':
+        if not state:
+            abort(404)
+
+        storage.delete(state)
+        storage.save()
+
+        return make_response(jsonify({}), 200)
+
+    return jsonify(state.to_dict()), 200
 
 
 @app_views.route('/states', methods=['POST'])
