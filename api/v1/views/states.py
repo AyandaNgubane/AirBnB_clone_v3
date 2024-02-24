@@ -27,7 +27,6 @@ def state_by_id(state_id):
     if not state:
         abort(404)
 
-
     if request.method == 'PUT':
         data = request.get_json(silent=True)
         if not data:
