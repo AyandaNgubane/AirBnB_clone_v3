@@ -16,6 +16,7 @@ def close_storage(error):
     """ Close Storage """
     storage.close()
 
+
 if __name__ == "__main__":
     host = environ.get('HBNB_API_HOST')
     port = environ.get('HBNB_API_PORT')
