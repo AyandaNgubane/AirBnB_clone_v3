@@ -39,11 +39,8 @@ def state_by_id(state_id):
         if not request.is_json():
             abort(400, description="Not a JSON")
 
-        ignore = ['id', 'created_at', 'updated_at']
-
         for key, value in data.items():
-            if key not in ignore:
-                setattr(state, key, value)
+            setattr(state, key, value)
         state.save()
 
         return (jsonify(state.to_dict()), 200)
