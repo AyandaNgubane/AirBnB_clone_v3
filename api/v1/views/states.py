@@ -38,10 +38,10 @@ def state_by_id(state_id):
         for key, value in data.items():
             if key not in ignore:
                 setattr(state, key, value)
-        storage.save()
+        state.save()
 
     if request.method == 'DELETE':
-        storage.delete(state)
+        state.delete()
         storage.save()
 
         return make_response(jsonify({}), 200)
