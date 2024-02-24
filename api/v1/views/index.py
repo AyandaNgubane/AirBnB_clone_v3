@@ -7,3 +7,15 @@ from flask import jsonify
 def status():
     """Returns status"""
     return jsonify({"status": "OK"})
+
+@app_views.route('/stats')
+def total_objects():
+    """ Retrieves the number of each objects by type """
+    classes = [Amenity, City, Place, Review, State, User]
+    class_names = ["amenities", "cities", "places", "reviews", "states", "users"]
+
+    all_objs = {}
+    for i in range(len(classes)):
+        all_objs[class_names[i]] = storage.count(classes[i])
+
+    return jsonify(all_objs)
