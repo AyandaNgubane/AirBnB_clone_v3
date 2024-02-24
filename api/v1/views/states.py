@@ -42,7 +42,7 @@ def state_by_id(state_id):
         return make_response(jsonify({}), 200)
 
     if request.method == 'DELETE':
-        state.delete()
+        storage.delete(state)
         storage.save()
 
         return make_response(jsonify({}), 200)
