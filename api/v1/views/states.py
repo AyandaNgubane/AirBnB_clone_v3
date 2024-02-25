@@ -16,7 +16,7 @@ def retreive_states():
         state_list = []
         states = storage.all(State).values()
         for state in states:
-            output.append(state.to_dict())
+            state_list.append(state.to_dict())
         return (jsonify(state_list))
     if request.method == 'POST':
         data = request.get_json()
