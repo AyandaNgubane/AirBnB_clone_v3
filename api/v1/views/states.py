@@ -1,21 +1,23 @@
 #!/usr/bin/python3
 """ state view """
 from api.v1.views import app_views
-from flask import jsonify, Blueprint, make_response, abort, request
+from flask import jsonify, make_response, abort, request
 from models import storage
 from models.state import State
-from models.base_model import BaseModel
 
 
 @app_views.route('/states', methods=["GET", "POST"], strict_slashes=False)
-def get_all_states():
-    """ retrieves all state objects """
+def retreive_states():
+    """If method is 'GET',
+    Retrieves the list of all State objects: GET /api/v1/states.
+    If method is 'POST', creates state
+    """
     if request.method == 'GET':
-        output = []
+        state_list = []
         states = storage.all(State).values()
         for state in states:
             output.append(state.to_dict())
-        return (jsonify(output))
+        return (jsonify(state_list))
     if request.method == 'POST':
         data = request.get_json()
         if not request.is_json:
@@ -29,14 +31,17 @@ def get_all_states():
 
 @app_views.route('/states/<state_id>', methods=["GET", "PUT"],
                  strict_slashes=False)
-def get_a_state(state_id):
-    """ retrieves one unique state object """
+def state_by_id(state_id):
+    """If method is 'GET',
+    Retrieves a State object: GET /api/v1/states/<state_id>.
+    If method is 'PUT', updates state.
+    """
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
     if request.method == "GET":
-        output = state.to_dict()
-        return (jsonify(output))
+        result = state.to_dict()
+        return (jsonify(result))
     if request.method == "PUT":
         print("test\n")
         data = request.get_json()
@@ -50,8 +55,8 @@ def get_a_state(state_id):
 
 @app_views.route('/states/<state_id>', methods=["GET", "DELETE"],
                  strict_slashes=False)
-def del_a_state(state_id):
-    """ delete one unique state object """
+def delete_state(state_id):
+    """Deletes state as per id"""
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
