@@ -11,6 +11,7 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
+import shlex
 
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
@@ -69,34 +70,11 @@ class FileStorage:
         """call reload() method for deserializing the JSON file to objects"""
         self.reload()
 
-    """def get(self, cls, id):
-
-        A method to retrieve one object,
-        Returns the object based on the class name and its ID, or
-        None if not found
-
-        if cls not in classes.values():
-            return None
-
-        classes_all = models.storage.all(cls)
-        for class_value in classes_all.values():
-            if (class_value.id == id):
-                return key
-
-    def count(self, cls=None):
-
-        Returns the number of objects in storage matching the given class.
-        If no class is passed, returns the count of all objects in storage.
-
-        return len(self.all(cls))"""
-
     def get(self, cls, id):
         """
-        Returns the object based on the class and its ID, or None if not found
-
-        Args:
-            - cls (class): the class to fetch
-            - id (str): representing the object ID
+        A method to retrieve one object
+        Returns the object based on the class and its ID,
+        or None if not found
         """
         if type(cls) is str:
             cls = eval(cls)
@@ -105,11 +83,9 @@ class FileStorage:
 
     def count(self, cls=None):
         """
-        Returns the number of objects in storage matching the given class
+        A method to count the number of objects in storage
+        Returns the number of objects in storage matching the given class.
         If no class is passed, returns the count of all objects in storage
-
-        Args:
-            - cls (class): the class to count
         """
         count = 0
         if cls:

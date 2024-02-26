@@ -15,6 +15,7 @@ from os import getenv
 import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+import shlex
 
 classes = {"Amenity": Amenity, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
@@ -75,34 +76,11 @@ class DBStorage:
         """call remove() method on the private session attribute"""
         self.__session.remove()
 
-    """def get(self, cls, id):
-
-        A method to retrieve one object,
-        Returns the object based on the class name and its ID, or
-        None if not found
-
-        if cls not in classes.values():
-            return None
-
-        classes_all = models.storage.all(cls)
-        for class_value in classes_all.values():
-            if (class_value.id == id):
-                return key
-
-    def count(self, cls=None):
-
-        Returns the number of objects in storage matching the given class.
-        If no class is passed, returns the count of all objects in storage.
-
-        return len(self.all(cls))"""
-
     def get(self, cls, id):
         """
-        Returns the object based on the class and its ID, or None if not found
-
-        Args:
-            - cls (class): the class to fetch
-            - id (str): representing the object ID
+        A method to retrieve one object
+        Returns the object based on the class and its ID,
+        or None if not found
         """
         if type(cls) is str:
             cls = eval(cls)
@@ -111,11 +89,9 @@ class DBStorage:
 
     def count(self, cls=None):
         """
-        Returns the number of objects in storage matching the given class
-        If no class is passed, returns the count of all objects in storage
-
-        Args:
-            - cls (class): the class to count
+        A method to count the number of objects in storage
+        Returns the number of objects in storage matching the given class.
+        If no class is passed, returns the count of all objects in storage.
         """
         count = 0
         if cls:
