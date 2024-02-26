@@ -8,7 +8,7 @@ from models.place import Place
 from flask import abort, jsonify, make_response, request
 
 
-@app_views.route('places/string:<place_id>/amenities', methods=['GET'],
+@app_views.route('places/<place_id>/amenities', methods=['GET'],
                  strict_slashes=False)
 def retreive_place_amenities(place_id):
     """
@@ -29,12 +29,12 @@ def retreive_place_amenities(place_id):
     return jsonify(amenities)
 
 
-@app_views.route('/places/string:<place_id>/amenities/string:<amenity_id>',
+@app_views.route('/places/<place_id>/amenities/<amenity_id>',
                  methods=['DELETE'], strict_slashes=False)
 def delete_place_amenity(place_id, amenity_id):
     """
     Deletes a Amenity object to a Place:
-    DELETE /api/v1/places/string:<place_id>/amenities/string:<amenity_id>
+    DELETE /api/v1/places/<place_id>/amenities/<amenity_id>
     """
     place = storage.get(Place, place_id)
 
@@ -59,7 +59,7 @@ def delete_place_amenity(place_id, amenity_id):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route('/places/string:<place_id>/amenities/string:<amenity_id>', methods=['POST'],
+@app_views.route('/places/<place_id>/amenities/<amenity_id>', methods=['POST'],
                  strict_slashes=False)
 def create_place_amenity(place_id, amenity_id):
     """
