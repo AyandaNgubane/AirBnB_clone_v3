@@ -3,6 +3,7 @@
 from api.v1.views import app_views
 from flask import jsonify, make_response, abort, request
 from models import storage
+from models.base_model import BaseModel
 from models.state import State
 from models.city import City
 
@@ -19,7 +20,7 @@ def retreive_cities(state_id):
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
-    if request.method == 'GET'
+    if request.method == 'GET':
         for city in state.cities:
             city_list.append(city.to_dict())
         return (jsonify(city_list))
