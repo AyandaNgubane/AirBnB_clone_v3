@@ -5,16 +5,25 @@ from models import storage
 from api.v1.views import app_views
 from flask import Flask, render_template, make_response, jsonify
 from os import environ
+from flask_cors import CORS
 
 app = Flask(__name__)
-
-app.register_blueprint(app_views)
+app.register_blueprint(app_views, url_prefix="/api/v1")
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+cors = CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
 
 
 @app.teardown_appcontext
-def close_storage(error):
+def close_storage(exception):
     """ Close Storage """
     storage.close()
+
+
+@app.errorhandler(400)
+def handle_400_error(e):
+    """Handle 400 error"""
+    message = jsonify({"error": e.description})
+    return make_response(message, 400)
 
 
 @app.errorhandler(404)
