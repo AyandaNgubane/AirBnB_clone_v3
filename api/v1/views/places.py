@@ -43,9 +43,9 @@ def retreive_places(city_id):
         return (jsonify(place.to_dict()), 201)
 
 
-@app_views.route('/cities/<city_id>', methods=["GET", "PUT", "DELETE"],
+@app_views.route('/places/<place_id>', methods=["GET", "PUT", "DELETE"],
                  strict_slashes=False)
-def place_by_id(city_id):
+def place_by_id(place_id):
     """If method is 'GET',
     Retrieves a Place object: GET /api/v1/places/<place_id>.
     If method is 'PUT', updates place.
