@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ state view """
 from api.v1.views import app_views
-from flask import jsonify, make_response, abort, request, Blueprint
+from flask import jsonify, make_response, abort, request
 from models import storage
 from models.base_model import BaseModel
 from models.state import State

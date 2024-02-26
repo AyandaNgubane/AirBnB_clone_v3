@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ city view """
 from api.v1.views import app_views
-from flask import jsonify, make_response, abort, request, Blueprint
+from flask import jsonify, make_response, abort, request
 from models import storage
 from models.base_model import BaseModel
 from models.state import State
@@ -41,7 +41,7 @@ def retreive_cities(state_id):
 def city_by_id(city_id):
     """If method is 'GET',
     Retrieves a City object: GET /api/v1/cities/<city_id>.
-    If method is 'PUT', updates state.
+    If method is 'PUT', updates city.
     """
     city = storage.get(City, city_id)
     if city is None:
