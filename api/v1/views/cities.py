@@ -20,11 +20,11 @@ def retreive_cities(state_id):
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
-    if request.method == 'GET':
+    if request.method == "GET":
         for city in state.cities:
             city_list.append(city.to_dict())
         return (jsonify(city_list))
-    if request.method == 'POST':
+    if request.method == "POST":
         data = request.get_json()
         if not request.is_json:
             abort(400, description="Not a JSON")
@@ -36,12 +36,13 @@ def retreive_cities(state_id):
         return (jsonify(city.to_dict()), 201)
 
 
-@app_views.route('/cities/<city_id>', methods=["GET", "PUT"],
+@app_views.route('/cities/<city_id>', methods=["GET", "PUT", "DELETE"],
                  strict_slashes=False)
 def city_by_id(city_id):
     """If method is 'GET',
     Retrieves a City object: GET /api/v1/cities/<city_id>.
     If method is 'PUT', updates city.
+    if method is 'DELETE', deletes city.
     """
     city = storage.get(City, city_id)
     if city is None:
@@ -57,16 +58,8 @@ def city_by_id(city_id):
             setattr(city, key, value)
         city.save()
         return (jsonify(city.to_dict()), 200)
-
-
-@app_views.route('/cities/<city_id>', methods=["GET", "DELETE"],
-                 strict_slashes=False)
-def delete_city(city_id):
-    """Deletes city as per id"""
-    city = storage.get(City, city_id)
-    if city is None:
-        abort(404)
-    storage.delete(city)
-    storage.save()
-    result = make_response(jsonify({}), 200)
-    return result
+    if request.method == "DELETE":
+        storage.delete(city)
+        storage.save()
+        result = make_response(jsonify({}), 200)
+        return result
